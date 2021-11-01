@@ -70,3 +70,10 @@ export function rstr2binb(input) {
   }
   return output;
 }
+
+/*
+ * Bitwise rotate a 32-bit number to the left.
+ */
+export function bit_rol(num, cnt) {
+  return (num << cnt) | (num >>> (32 - cnt));
+}
