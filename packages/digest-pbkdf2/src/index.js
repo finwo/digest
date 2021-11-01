@@ -29,7 +29,6 @@ import {
  * Thanks to Stuart Heinrich for pointing out updates to PAJ's SHA-1 library in version 1.4
  */
 
-
 /*
  * The four arguments to the constructor of the PBKDF2 object are 
  * the password, salt, number of iterations and number of bytes in
@@ -112,7 +111,6 @@ export function PBKDF2(password, salt, num_iterations, num_bytes) {
     m_ipad[i] = m_bpassword[i] ^ 0x36363636;
     m_opad[i] = m_bpassword[i] ^ 0x5C5C5C5C;
   }
-
 
   // Starts the computation
   this.deriveKey = function(status_callback, result_callback) {
