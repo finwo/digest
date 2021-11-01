@@ -1,6 +1,7 @@
 import {
   rstr2hex,
   rstr2b64,
+  bit_rol,
 } from '@finwo/digest-common';
 
 /*
@@ -24,23 +25,16 @@ export function b64_hmac_md5(k, d) { return rstr2b64(rstr_hmac_md5(str2rstr_utf8
 export function any_hmac_md5(k, d, e) { return rstr2any(rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d)), e); }
 
 /*
- * Perform a simple self-test to see if the VM is working
- */
-export function md5_vm_test() {
-  return hex_md5("abc").toLowerCase() == "900150983cd24fb0d6963f7d28e17f72";
-}
-
-/*
  * Calculate the MD5 of a raw string
  */
-export function rstr_md5(s) {
+function rstr_md5(s) {
   return binl2rstr(binl_md5(rstr2binl(s), s.length * 8));
 }
 
 /*
  * Calculate the HMAC-MD5, of a key and some data (raw strings)
  */
-export function rstr_hmac_md5(key, data) {
+function rstr_hmac_md5(key, data) {
   var bkey = rstr2binl(key);
   if(bkey.length > 16) bkey = binl_md5(bkey, key.length * 8);
 
@@ -57,7 +51,7 @@ export function rstr_hmac_md5(key, data) {
 /*
  * Convert a raw string to an arbitrary string encoding
  */
-export function rstr2any(input, encoding) {
+function rstr2any(input, encoding) {
   var divisor = encoding.length;
   var i, j, q, x, quotient;
 
@@ -104,7 +98,7 @@ export function rstr2any(input, encoding) {
  * Encode a string as utf-8.
  * For efficiency, this assumes the input is valid utf-16.
  */
-export function str2rstr_utf8(input) {
+function str2rstr_utf8(input) {
   var output = "";
   var i = -1;
   var x, y;
@@ -141,7 +135,7 @@ export function str2rstr_utf8(input) {
 /*
  * Encode a string as utf-16
  */
-export function str2rstr_utf16le(input) {
+function str2rstr_utf16le(input) {
   var output = "";
   for(var i = 0; i < input.length; i++) {
     output += String.fromCharCode( input.charCodeAt(i)        & 0xFF,
@@ -150,7 +144,7 @@ export function str2rstr_utf16le(input) {
   return output;
 }
 
-export function str2rstr_utf16be(input) {
+function str2rstr_utf16be(input) {
   var output = "";
   for(var i = 0; i < input.length; i++) {
     output += String.fromCharCode((input.charCodeAt(i) >>> 8) & 0xFF,
@@ -163,7 +157,7 @@ export function str2rstr_utf16be(input) {
  * Convert a raw string to an array of little-endian words
  * Characters >255 have their high-byte silently ignored.
  */
-export function rstr2binl(input) {
+function rstr2binl(input) {
   var output = Array(input.length >> 2);
   for(var i = 0; i < output.length; i++) {
     output[i] = 0;
@@ -177,7 +171,7 @@ export function rstr2binl(input) {
 /*
  * Convert an array of little-endian words to a string
  */
-export function binl2rstr(input) {
+function binl2rstr(input) {
   var output = "";
   for(var i = 0; i < input.length * 32; i += 8) {
     output += String.fromCharCode((input[i>>5] >>> (i % 32)) & 0xFF);
@@ -188,7 +182,7 @@ export function binl2rstr(input) {
 /*
  * Calculate the MD5 of an array of little-endian words, and a bit length.
  */
-export function binl_md5(x, len) {
+function binl_md5(x, len) {
   /* append padding */
   x[len >> 5] |= 0x80 << ((len) % 32);
   x[(((len + 64) >>> 9) << 4) + 14] = len;
@@ -283,19 +277,19 @@ export function binl_md5(x, len) {
 /*
  * These functions implement the four basic operations the algorithm uses.
  */
-export function md5_cmn(q, a, b, x, s, t) {
+function md5_cmn(q, a, b, x, s, t) {
   return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s),b);
 }
-export function md5_ff(a, b, c, d, x, s, t) {
+function md5_ff(a, b, c, d, x, s, t) {
   return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
 }
-export function md5_gg(a, b, c, d, x, s, t) {
+function md5_gg(a, b, c, d, x, s, t) {
   return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
 }
-export function md5_hh(a, b, c, d, x, s, t) {
+function md5_hh(a, b, c, d, x, s, t) {
   return md5_cmn(b ^ c ^ d, a, b, x, s, t);
 }
-export function md5_ii(a, b, c, d, x, s, t) {
+function md5_ii(a, b, c, d, x, s, t) {
   return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
 }
 
@@ -303,15 +297,8 @@ export function md5_ii(a, b, c, d, x, s, t) {
  * Add integers, wrapping at 2^32. This uses 16-bit operations internally
  * to work around bugs in some JS interpreters.
  */
-export function safe_add(x, y) {
+function safe_add(x, y) {
   var lsw = (x & 0xFFFF) + (y & 0xFFFF);
   var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
   return (msw << 16) | (lsw & 0xFFFF);
-}
-
-/*
- * Bitwise rotate a 32-bit number to the left.
- */
-export function bit_rol(num, cnt) {
-  return (num << cnt) | (num >>> (32 - cnt));
 }

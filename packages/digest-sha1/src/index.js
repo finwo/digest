@@ -3,6 +3,7 @@ import {
   rstr2b64,
   binb2rstr,
   rstr2binb,
+  bit_rol,
 } from '@finwo/digest-common';
 
 /*
@@ -36,13 +37,6 @@ export function b64_hmac_sha1(k, d) {
 }
 export function any_hmac_sha1(k, d, e) {
   return rstr2any(rstr_hmac_sha1(str2rstr_utf8(k), str2rstr_utf8(d)), e);
-}
-
-/*
- * Perform a simple self-test to see if the VM is working
- */
-export function sha1_vm_test() {
-  return hex_sha1("abc").toLowerCase() == "a9993e364706816aba3e25717850c26c9cd0d89d";
 }
 
 /*
@@ -253,11 +247,4 @@ export function safe_add(x, y) {
   var lsw = (x & 0xFFFF) + (y & 0xFFFF);
   var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
   return (msw << 16) | (lsw & 0xFFFF);
-}
-
-/*
- * Bitwise rotate a 32-bit number to the left.
- */
-export function bit_rol(num, cnt) {
-  return (num << cnt) | (num >>> (32 - cnt));
 }

@@ -4,6 +4,7 @@ const test = require('tape');
 test('Common test values', async t => {
   const cases = [
     { msg: ''                                           , hex: 'da39a3ee5e6b4b0d3255bfef95601890afd80709', b64: '2jmj7l5rSw0yVb/vlWAYkK/YBwk=' },
+    { msg: 'abc'                                        , hex: 'a9993e364706816aba3e25717850c26c9cd0d89d', b64: 'qZk+NkcGgWq6PiVxeFDCbJzQ2J0=' },
     { msg: 'sha1 this string'                           , hex: 'cf23df2207d99a74fbe169e3eba035e633b65d94', b64: 'zyPfIgfZmnT74Wnj66A15jO2XZQ=' },
     { msg: 'crackme'                                    , hex: '8786ba517f024e479b20982567f998e58cde951e', b64: 'h4a6UX8CTkebIJglZ/mY5YzelR4=' },
     { msg: 'crackme123'                                 , hex: '717de03c9158ae10675c659c2fe8b27b71d50073', b64: 'cX3gPJFYrhBnXGWcL+iye3HVAHM=' },

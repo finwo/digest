@@ -55,6 +55,7 @@ import {
  *
  */
 
+export default PBKDF2;
 export function PBKDF2(password, salt, num_iterations, num_bytes) {
   // Remember the password and salt
   var m_bpassword = rstr2binb(password);

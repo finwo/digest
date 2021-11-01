@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com/finwo/digest"
   },
+  "funding": {
+    "url": "https://github.com/sponsors/finwo"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",
