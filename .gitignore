@@ -1,0 +1,5 @@
+dist/
+node_modules/
+packages/**/config.build.json
+packages/**/package.json
+packages/**/package-lock.json
