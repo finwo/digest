@@ -36,7 +36,7 @@ PBKDF2(password, salt, num_iterations, num_bytes);
 
 - salt: string
 
-  A [cryptographic salt](https://en.wikipedia.org/wiki/Salt_(cryptography)
+  A [cryptographic salt](https://en.wikipedia.org/wiki/Salt_(cryptography))
 
 - num_iterations: integer
 
