@@ -19,37 +19,36 @@ import {
  * These are the functions you'll usually want to call
  * They take string arguments and return either hex or base-64 encoded strings
  */
-export function hex_sha1(s) {
+export function hex_sha1(s: string): string {
   return rstr2hex(rstr_sha1(str2rstr_utf8(s)));
 }
-export function b64_sha1(s) {
+export function b64_sha1(s: string): string {
   return rstr2b64(rstr_sha1(str2rstr_utf8(s)));
 }
-export function any_sha1(s, e) {
+export function any_sha1(s: string, e: string): string {
   return rstr2any(rstr_sha1(str2rstr_utf8(s)), e);
 }
-
-export function hex_hmac_sha1(k, d) {
+export function hex_hmac_sha1(k: string, d: string): string {
   return rstr2hex(rstr_hmac_sha1(str2rstr_utf8(k), str2rstr_utf8(d)));
 }
-export function b64_hmac_sha1(k, d) {
+export function b64_hmac_sha1(k: string, d: string): string {
   return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(k), str2rstr_utf8(d)));
 }
-export function any_hmac_sha1(k, d, e) {
+export function any_hmac_sha1(k: string, d: string, e: string): string {
   return rstr2any(rstr_hmac_sha1(str2rstr_utf8(k), str2rstr_utf8(d)), e);
 }
 
 /*
  * Calculate the SHA1 of a raw string
  */
-export function rstr_sha1(s) {
+export function rstr_sha1(s: string): string {
   return binb2rstr(binb_sha1(rstr2binb(s), s.length * 8));
 }
 
 /*
  * Calculate the HMAC-SHA1 of a key and some data (raw strings)
  */
-export function rstr_hmac_sha1(key, data) {
+export function rstr_hmac_sha1(key: string, data: string): string {
   var bkey = rstr2binb(key);
   if(bkey.length > 16) bkey = binb_sha1(bkey, key.length * 8);
 
@@ -66,7 +65,7 @@ export function rstr_hmac_sha1(key, data) {
 /*
  * Convert a raw string to an arbitrary string encoding
  */
-export function rstr2any(input, encoding) {
+export function rstr2any(input: string, encoding: string): string {
   var divisor = encoding.length;
   var remainders = Array();
   var i, q, x, quotient;
@@ -118,7 +117,7 @@ export function rstr2any(input, encoding) {
  * Encode a string as utf-8.
  * For efficiency, this assumes the input is valid utf-16.
  */
-export function str2rstr_utf8(input) {
+export function str2rstr_utf8(input: string): string {
   var output = "";
   var i = -1;
   var x, y;
@@ -155,7 +154,7 @@ export function str2rstr_utf8(input) {
 /*
  * Encode a string as utf-16
  */
-export function str2rstr_utf16le(input) {
+export function str2rstr_utf16le(input: string): string {
   var output = "";
   for(var i = 0; i < input.length; i++) {
     output += String.fromCharCode( input.charCodeAt(i)        & 0xFF,
@@ -164,7 +163,7 @@ export function str2rstr_utf16le(input) {
   return output;
 }
 
-export function str2rstr_utf16be(input) {
+export function str2rstr_utf16be(input: string): string {
   var output = "";
   for(var i = 0; i < input.length; i++) {
     output += String.fromCharCode((input.charCodeAt(i) >>> 8) & 0xFF,
@@ -176,7 +175,7 @@ export function str2rstr_utf16be(input) {
 /*
  * Calculate the SHA-1 of an array of big-endian words, and a bit length
  */
-export function binb_sha1(x, len) {
+export function binb_sha1(x: number[], len: number): number[] {
   /* append padding */
   x[len >> 5] |= 0x80 << (24 - len % 32);
   x[((len + 64 >> 9) << 4) + 15] = len;
@@ -224,7 +223,7 @@ export function binb_sha1(x, len) {
  * Perform the appropriate triplet combination function for the current
  * iteration
  */
-export function sha1_ft(t, b, c, d) {
+export function sha1_ft(t: number, b: number, c: number, d: number): number {
   if(t < 20) return (b & c) | ((~b) & d);
   if(t < 40) return b ^ c ^ d;
   if(t < 60) return (b & c) | (b & d) | (c & d);
@@ -234,7 +233,7 @@ export function sha1_ft(t, b, c, d) {
 /*
  * Determine the appropriate additive constant for the current iteration
  */
-export function sha1_kt(t) {
+export function sha1_kt(t: number): 1518500249 | 1859775393 | -1894007588 | -899497514 {
   return (t < 20) ?  1518500249 : (t < 40) ?  1859775393 :
     (t < 60) ? -1894007588 : -899497514;
 }
@@ -243,7 +242,7 @@ export function sha1_kt(t) {
  * Add integers, wrapping at 2^32. This uses 16-bit operations internally
  * to work around bugs in some JS interpreters.
  */
-export function safe_add(x, y) {
+export function safe_add(x: number, y: number): number {
   var lsw = (x & 0xFFFF) + (y & 0xFFFF);
   var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
   return (msw << 16) | (lsw & 0xFFFF);
