@@ -1,0 +1,15 @@
+#!/bin/bash
+
+git diff --cached --name-status | while read st file; do
+  if [ "$st" == 'D' ]; then continue; fi
+  if ! [[ "${file:(-3)}" == ".js" ]]; then continue; fi
+  echo -en "[    ] Linting ${file}"
+  npm install --no-save eslint-plugin-editorconfig
+  results=$(npx -y eslint --config eslint.config.js "${file}" 2>&1)
+  if [ "$?" -ne "0" ]; then
+    echo -en "\r[fail]\n"
+    printf "%s\n" "$results"
+    exit 1
+  fi
+    echo -en "\r[pass]\n"
+done

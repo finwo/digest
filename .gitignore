@@ -1,5 +1,6 @@
 dist/
 node_modules/
-packages/**/config.build.json
+packages/**/build.js
+packages/**/tsconfig.json
 packages/**/package.json
 packages/**/package-lock.json

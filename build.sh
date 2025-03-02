@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
+git config core.hooksPath .githooks
+FIND=$(command -v gfind find | head -1)
+
 set -ex
 cd $(dirname $0)
 approot=$(pwd)
-templates=$(cd "${approot}/common"; find -type f);
+templates=$(cd "${approot}/common"; ${FIND} -type f);
 packages=$(cd "${approot}/packages"; ls);
 
 for package in $packages; do
