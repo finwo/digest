@@ -1,6 +1,6 @@
 module.exports = [
   {
-    files: ["src/**/*.js","eslint.config.js"],
+    files: ["packages/*/src/**/*.js","eslint.config.js","packages/*/src/**/*.ts"],
     rules: {
       "semi": "error",
       "editorconfig/charset": "error",

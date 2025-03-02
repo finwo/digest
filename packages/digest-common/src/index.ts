@@ -10,7 +10,7 @@ var b64pad  = "=";  /* base-64 pad character. "=" for strict RFC compliance   */
  * Convert a raw string to a hex string
  */
 export function rstr2hex(input) {
-  try { hexcase } catch(e) { hexcase=0; }
+  try { hexcase; } catch(e) { hexcase=0; }
   var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
   var output = "";
   var x;
@@ -26,7 +26,7 @@ export function rstr2hex(input) {
  * Convert a raw string to a base-64 string
  */
 export function rstr2b64(input) {
-  try { b64pad } catch(e) { b64pad=''; }
+  try { b64pad; } catch(e) { b64pad=''; }
   var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   var output = "";
   var len = input.length;
