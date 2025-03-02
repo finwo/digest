@@ -9,7 +9,7 @@ var b64pad  = "=";  /* base-64 pad character. "=" for strict RFC compliance   */
 /*
  * Convert a raw string to a hex string
  */
-export function rstr2hex(input) {
+export function rstr2hex(input: string): string {
   try { hexcase; } catch(e) { hexcase=0; }
   var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
   var output = "";
@@ -25,7 +25,7 @@ export function rstr2hex(input) {
 /*
  * Convert a raw string to a base-64 string
  */
-export function rstr2b64(input) {
+export function rstr2b64(input: string): string {
   try { b64pad; } catch(e) { b64pad=''; }
   var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   var output = "";
@@ -48,7 +48,7 @@ export function rstr2b64(input) {
 /*
  * Convert an array of big-endian words to a string
  */
-export function binb2rstr(input) {
+export function binb2rstr(input: number[]): string {
   var output = "";
   for(var i = 0; i < input.length * 32; i += 8) {
     output += String.fromCharCode((input[i>>5] >>> (24 - i % 32)) & 0xFF);
@@ -60,7 +60,7 @@ export function binb2rstr(input) {
  * Convert a raw string to an array of big-endian words
  * Characters >255 have their high-byte silently ignored.
  */
-export function rstr2binb(input) {
+export function rstr2binb(input: string): number[] {
   var output = Array(input.length >> 2);
   for(var i = 0; i < output.length; i++) {
     output[i] = 0;
@@ -74,6 +74,6 @@ export function rstr2binb(input) {
 /*
  * Bitwise rotate a 32-bit number to the left.
  */
-export function bit_rol(num, cnt) {
+export function bit_rol(num: number, cnt: number): number {
   return (num << cnt) | (num >>> (32 - cnt));
 }
